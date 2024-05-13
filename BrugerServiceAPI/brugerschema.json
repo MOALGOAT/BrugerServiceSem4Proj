@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "bruger_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unik identifikator for brugeren."
+    },
+    "fornavn": {
+      "type": "string",
+      "description": "Brugerens fornavn."
+    },
+    "efternavn": {
+      "type": "string",
+      "description": "Brugerens efternavn."
+    },
+    "password": {
+      "type": "string",
+      "description": "Brugerens adgangskode."
+    },
+    "email": {
+      "type": "string",
+      "description": "Brugerens email."
+    },
+    "adresse": {
+      "type": "string",
+      "description": "Brugerens adresse."
+    },
+    "telefonnummer": {
+      "type": "string",
+      "description": "Brugerens telefonnummer."
+    },
+    "rolle": {
+      "type": "integer",
+      "description": "Brugerens rolle."
+    },
+    "brugernavn": {
+      "type": "string",
+      "description": "Brugerens brugernavn."
+    }
+  },
+  "required": [ "bruger_id", "fornavn", "efternavn", "password", "email", "adresse", "telefonnummer", "rolle", "brugernavn" ]
+}
