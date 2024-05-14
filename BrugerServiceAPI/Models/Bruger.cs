@@ -3,17 +3,23 @@
 
 namespace BrugerServiceAPI.Models
 {
-    public class Bruger
+    public class User
     {
         [BsonId]
-        public Guid brugerID { get; set; }
-        public string fornavn { get; set; }
-        public string efternavn { get; set; }
+        public Guid _id { get; set; }
+        public string firstName { get; set; }
+
+        public string lastName { get; set; }
         public string email { get; set; }
-        public string adresse { get; set; }
-        public string telefonnummer { get; set; }
-        public int rolle { get; set; }
-        public string brugernavn { get; set; }
-        public string adgangskode { get; set; }
+
+        public string adress { get; set; }
+
+        public string telephonenumber { get; set; }
+
+        public int role { get; set; }
+
+        public string username { get; set; }
+
+        public string password { get; set; }
     }
 }

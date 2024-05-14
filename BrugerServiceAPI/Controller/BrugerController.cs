@@ -6,52 +6,52 @@ namespace BrugerServiceAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class BrugerController : ControllerBase
+    public class UserController : ControllerBase
     {
-        private readonly IBrugerInterface _brugerService;
-        private readonly ILogger<BrugerController> _logger; 
+        private readonly IUserInterface _userService;
+        private readonly ILogger<UserController> _logger; 
 
-        public BrugerController(IBrugerInterface brugerService, ILogger<BrugerController> logger) 
+        public UserController(IUserInterface userService, ILogger<UserController> logger) 
         {
-            _brugerService = brugerService;
+            _userService = userService;
             _logger = logger; 
         }
 
-        [HttpGet("{bruger_id}")]
-        public async Task<ActionResult<Bruger>> GetBruger(Guid brugerID)
+        [HttpGet("{_id}")]
+        public async Task<ActionResult<User>> GetUser(Guid userID)
         {
-            var bruger = await _brugerService.GetBruger(brugerID);
-            if (bruger == null)
+            var user = await _userService.GetUser(userID);
+            if (user == null)
             {
                 return NotFound();
             }
-            return bruger;
+            return user;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Bruger>>> GetBrugerList()
+        public async Task<ActionResult<IEnumerable<User>>> GetUserList()
         {
-            var brugerList = await _brugerService.GetBrugerList();
-            if (brugerList == null) { throw new ApplicationException("listen er null"); };
-            return Ok(brugerList);
+            var userList = await _userService.GetUserList();
+            if (userList == null) { throw new ApplicationException("listen er null"); };
+            return Ok(userList);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Guid>> AddBruger(Bruger bruger)
+        public async Task<ActionResult<Guid>> AddUser(User user)
         {
-            var brugerID = await _brugerService.AddBruger(bruger);
-            return CreatedAtAction(nameof(GetBruger), new { b = brugerID }, brugerID);
+            var userID = await _userService.AddUser(user);
+            return CreatedAtAction(nameof(GetUser), new { b = userID }, userID);
         }
 
-        [HttpPut("{bruger_id}")]
-        public async Task<IActionResult> UpdateBruger(Guid id, Bruger bruger)
+        [HttpPut("{_id}")]
+        public async Task<IActionResult> UpdateUser(Guid id, User user)
         {
-            if (id != bruger.brugerID)
+            if (id != user._id)
             {
                 return BadRequest();
             }
 
-            var result = await _brugerService.UpdateBruger(bruger);
+            var result = await _userService.UpdateUser(user);
             if (result == 0)
             {
                 return NotFound();
@@ -60,10 +60,10 @@ namespace BrugerServiceAPI.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{bruger_id}")]
-        public async Task<IActionResult> DeleteBruger(Guid bruger_id)
+        [HttpDelete("{user_id}")]
+        public async Task<IActionResult> DeleteUser(Guid user_id)
         {
-            var result = await _brugerService.DeleteBruger(bruger_id);
+            var result = await _userService.DeleteUser(user_id);
             if (result == 0)
             {
                 return NotFound();

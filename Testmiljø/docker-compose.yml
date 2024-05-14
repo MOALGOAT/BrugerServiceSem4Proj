@@ -1,5 +1,8 @@
 version: '3.8'
 
+networks:
+  auctionnetwork:
+
 services:
   mongodb:
     image: mongo:latest
@@ -12,11 +15,13 @@ services:
     hostname: mongodb
     volumes:
       - mongodb_data_container:/data/db
+    networks:
+      - auctionnetwork
 
   brugerservice:
     image: rasmusdd/brugerserviceapi-image:1.0.0
     ports:
-      - 8080:80
+      - 80:8080
     depends_on: 
       - mongodb
     environment:
@@ -25,5 +30,8 @@ services:
       - collectionName=Bruger
     container_name: userservice 
     hostname: userservice
+    networks:
+      - auctionnetwork
+
 volumes:
   mongodb_data_container:

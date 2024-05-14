@@ -2,43 +2,42 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "properties": {
-    "bruger_id": {
-      "type": "string",
-      "format": "uuid",
-      "description": "Unik identifikator for brugeren."
+    "_id": {
+      "type": "Guid",
+      "description": "User _id."
     },
-    "fornavn": {
+    "firstName": {
       "type": "string",
-      "description": "Brugerens fornavn."
+      "description": "User first name."
     },
-    "efternavn": {
+    "lastName": {
       "type": "string",
-      "description": "Brugerens efternavn."
+      "description": "User last name."
     },
     "password": {
       "type": "string",
-      "description": "Brugerens adgangskode."
+      "description": "User password."
     },
     "email": {
       "type": "string",
-      "description": "Brugerens email."
+      "description": "User email."
     },
-    "adresse": {
+    "address": {
       "type": "string",
-      "description": "Brugerens adresse."
+      "description": "User address."
     },
-    "telefonnummer": {
+    "telephonenumber": {
       "type": "string",
-      "description": "Brugerens telefonnummer."
+      "description": "User telephonenumber."
     },
-    "rolle": {
+    "role": {
       "type": "integer",
-      "description": "Brugerens rolle."
+      "description": "User role."
     },
-    "brugernavn": {
+    "username": {
       "type": "string",
-      "description": "Brugerens brugernavn."
+      "description": "User username."
     }
   },
-  "required": [ "bruger_id", "fornavn", "efternavn", "password", "email", "adresse", "telefonnummer", "rolle", "brugernavn" ]
+  "required": [ "_id", "firstName", "lastName", "password", "email", "address", "telephonenumber", "role", "username" ]
 }

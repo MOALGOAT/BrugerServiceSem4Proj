@@ -15,7 +15,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddSingleton<MongoDBContext>();
-builder.Services.AddSingleton<IBrugerInterface, UserMongoDBService>();
+builder.Services.AddSingleton<IUserInterface, UserMongoDBService>();
 
 var app = builder.Build();
 

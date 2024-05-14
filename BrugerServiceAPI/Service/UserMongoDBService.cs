@@ -5,18 +5,18 @@ using MongoDB.Driver;
 
 namespace BrugerServiceAPI.Models
 {
-    public interface IBrugerInterface
+    public interface IUserInterface
     {
-        Task<Bruger?> GetBruger(Guid brugerID);
-        Task<IEnumerable<Bruger>?> GetBrugerList();
-        Task<Guid> AddBruger(Bruger bruger);
-        Task<long> UpdateBruger(Bruger bruger);
-        Task<long> DeleteBruger(Guid brugerID);
+        Task<User?> GetUser(Guid _id);
+        Task<IEnumerable<User>?> GetUserList();
+        Task<Guid> AddUser(User user);
+        Task<long> UpdateUser(User user);
+        Task<long> DeleteUser(Guid _id);
     }
-    public class UserMongoDBService : IBrugerInterface
+    public class UserMongoDBService : IUserInterface
     {
         private readonly ILogger<UserMongoDBService> _logger;
-        private readonly IMongoCollection<Bruger> _userCollection;
+        private readonly IMongoCollection<User> _userCollection;
 
         public UserMongoDBService(ILogger<UserMongoDBService> logger, MongoDBContext dbContext, IConfiguration configuration)
         {
@@ -27,38 +27,38 @@ namespace BrugerServiceAPI.Models
             }
 
             _logger = logger;
-            _userCollection = dbContext.GetCollection<Bruger>(collectionName);  
+            _userCollection = dbContext.GetCollection<User>(collectionName);  
             _logger.LogInformation($"Collection name: {collectionName}");
         }
 
-        public async Task<Bruger?> GetBruger(Guid bruger_id)
+        public async Task<User?> GetUser(Guid _id)
         {
-            var filter = Builders<Bruger>.Filter.Eq(x => x.brugerID, bruger_id);
+            var filter = Builders<User>.Filter.Eq(x => x._id, _id);
             return await _userCollection.Find(filter).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Bruger>?> GetBrugerList()
+        public async Task<IEnumerable<User>?> GetUserList()
         {
             return await _userCollection.Find(_ => true).ToListAsync();
         }
 
-        public async Task<Guid> AddBruger(Bruger bruger)
+        public async Task<Guid> AddUser(User user)
         {
-            bruger.brugerID = Guid.NewGuid();
-            await _userCollection.InsertOneAsync(bruger);
-            return bruger.brugerID;
+            user._id = Guid.NewGuid();
+            await _userCollection.InsertOneAsync(user);
+            return user._id;
         }
 
-        public async Task<long> UpdateBruger(Bruger bruger)
+        public async Task<long> UpdateUser(User user)
         {
-            var filter = Builders<Bruger>.Filter.Eq(x => x.brugerID, bruger.brugerID);
-            var result = await _userCollection.ReplaceOneAsync(filter, bruger);
+            var filter = Builders<User>.Filter.Eq(x => x._id, user._id);
+            var result = await _userCollection.ReplaceOneAsync(filter, user);
             return result.ModifiedCount;
         }
-
-        public async Task<long> DeleteBruger(Guid bruger_id)
+        
+        public async Task<long> DeleteUser(Guid _id)
         {
-            var filter = Builders<Bruger>.Filter.Eq(x => x.brugerID, bruger_id);
+            var filter = Builders<User>.Filter.Eq(x => x._id, _id);
             var result = await _userCollection.DeleteOneAsync(filter);
             return result.DeletedCount;
         }
