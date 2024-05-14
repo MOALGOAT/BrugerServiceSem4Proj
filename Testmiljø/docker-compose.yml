@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: 1234
+    ports:
+      - 27019:27017
+    container_name: mongodb 
+    hostname: mongodb
+    volumes:
+      - mongodb_data_container:/data/db
+
+  brugerservice:
+    image: rasmusdd/brugerserviceapi-image:1.0.0
+    ports:
+      - 8080:80
+    depends_on: 
+      - mongodb
+    environment:
+      - ConnectionString=mongodb://admin:1234@mongodb:27017
+      - DatabaseName=4SemProj
+      - collectionName=Bruger
+    container_name: userservice 
+    hostname: userservice
+volumes:
+  mongodb_data_container:
