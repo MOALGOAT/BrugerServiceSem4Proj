@@ -18,8 +18,8 @@ services:
     networks:
       - auctionnetwork
 
-  brugerservice:
-    image: rasmusdd/brugerserviceapi-image:1.0.0
+  userservice:
+    image: rasmusdd/userservice3-image:1.0.0
     ports:
       - 80:8080
     depends_on: 
@@ -30,6 +30,21 @@ services:
       - collectionName=Bruger
     container_name: userservice 
     hostname: userservice
+    networks:
+      - auctionnetwork
+
+  catalogservice:
+    image: furk0402/catalogservice-image:latest
+    ports:
+      - 81:8080 # Assuming your Catalog API listens on port 8080 internally
+    depends_on:
+      - mongodb
+    environment:
+      - ConnectionString=mongodb://admin:1234@mongodb:27017
+      - DatabaseName=4SemProj
+      - collectionName=Katalog
+    container_name: catalogservice
+    hostname: catalogservice
     networks:
       - auctionnetwork
 

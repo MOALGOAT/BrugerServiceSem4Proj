@@ -40,13 +40,14 @@ namespace BrugerServiceAPI.Controllers
         public async Task<ActionResult<Guid>> AddUser(User user)
         {
             var userID = await _userService.AddUser(user);
-            return CreatedAtAction(nameof(GetUser), new { b = userID }, userID);
+            CreatedAtAction(nameof(GetUser), new { b = userID }, userID); 
+            return Ok(userID);
         }
 
         [HttpPut("{_id}")]
-        public async Task<IActionResult> UpdateUser(Guid id, User user)
+        public async Task<IActionResult> UpdateUser(Guid _id, User user)
         {
-            if (id != user._id)
+            if (_id != user._id)
             {
                 return BadRequest();
             }
