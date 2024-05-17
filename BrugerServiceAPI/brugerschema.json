@@ -4,7 +4,7 @@
   "properties": {
     "_id": {
       "type": "Guid",
-      "description": "User _id."
+      "description": "User Id."
     },
     "firstName": {
       "type": "string",

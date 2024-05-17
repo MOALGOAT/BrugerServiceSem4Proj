@@ -1,8 +1,5 @@
 version: '3.8'
 
-networks:
-  auctionnetwork:
-
 services:
   mongodb:
     image: mongo:latest
@@ -19,7 +16,7 @@ services:
       - auctionnetwork
 
   userservice:
-    image: rasmusdd/userservice3-image:1.0.0
+    image: rasmusdd/userservice5-image:1.0.0
     ports:
       - 80:8080
     depends_on: 
@@ -36,7 +33,7 @@ services:
   catalogservice:
     image: furk0402/catalogservice-image:latest
     ports:
-      - 81:8080 # Assuming your Catalog API listens on port 8080 internally
+      - 81:8080 #gør det noget, at de er ens?
     depends_on:
       - mongodb
     environment:
@@ -47,6 +44,26 @@ services:
     hostname: catalogservice
     networks:
       - auctionnetwork
+
+  loki:
+    image: grafana/loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - auctionnetwork
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - auctionnetwork
+
+networks:
+  auctionnetwork:
+   name: auctionnetwork  
+
 
 volumes:
   mongodb_data_container:
