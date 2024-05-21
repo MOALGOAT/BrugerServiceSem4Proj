@@ -16,7 +16,7 @@ services:
       - auctionnetwork
 
   userservice:
-    image: rasmusdd/userservice5-image:1.0.0
+    image: jakobhaulund/bruger-service-image:latest
     ports:
       - 80:8080
     depends_on: 
@@ -31,7 +31,7 @@ services:
       - auctionnetwork
 
   catalogservice:
-    image: furk0402/catalogservice-image:latest
+    image: rasmusdd/catalogservicegit-image:latest
     ports:
       - 81:8080 #gør det noget, at de er ens?
     depends_on:
