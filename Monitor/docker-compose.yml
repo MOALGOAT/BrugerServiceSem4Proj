@@ -17,4 +17,5 @@ services:
       - auctionnetwork
 
 networks:
-  loki:
+  auctionnetwork:
+    external: true
