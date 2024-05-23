@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BrugerServiceAPI.Service;
+using MongoDB.Driver;
 
 namespace BrugerServiceAPI.Controllers
 {
@@ -15,10 +17,13 @@ namespace BrugerServiceAPI.Controllers
         private readonly IUserInterface _userService;
         private readonly ILogger<UserController> _logger;
 
-        public UserController(IUserInterface userService, ILogger<UserController> logger)
+        private readonly UserMongoDBService _userMongoDBService;
+
+        public UserController(IUserInterface userService, ILogger<UserController> logger, UserMongoDBService userMongoDBService)
         {
             _userService = userService;
             _logger = logger;
+            _userMongoDBService = userMongoDBService;
 
             // Log IP address
             var hostName = System.Net.Dns.GetHostName();
@@ -96,6 +101,19 @@ namespace BrugerServiceAPI.Controllers
 
             _logger.LogInformation("User with ID: {UserID} deleted", user_id);
             return Ok();
+        }
+
+        [HttpPost("validate")]
+        public async Task<ActionResult<User>> ValidateUser(string username, string password, int role)
+        {
+            _logger.LogInformation("Validating user with username: {Username}, password: {Password}, role: {Role}", username, password, role);
+            var user = await _userMongoDBService.ValidateUser(username, password, role);
+            if (user == null)
+            {
+                _logger.LogWarning("User with username: {Username}, password: {Password}, role: {Role} not found", username, password, role);
+                return NotFound();
+            }
+            return Ok(user);  // Returner brugeren som en Ok (200) svar
         }
     }
 }

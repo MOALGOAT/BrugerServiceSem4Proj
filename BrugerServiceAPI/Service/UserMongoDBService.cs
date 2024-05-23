@@ -12,6 +12,7 @@ namespace BrugerServiceAPI.Models
         Task<Guid> AddUser(User user);
         Task<long> UpdateUser(User user);
         Task<long> DeleteUser(Guid _id);
+        Task<User> ValidateUser(string username, string password, int role);
     }
     public class UserMongoDBService : IUserInterface
     {
@@ -27,7 +28,7 @@ namespace BrugerServiceAPI.Models
             }
 
             _logger = logger;
-            _userCollection = dbContext.GetCollection<User>(collectionName);  
+            _userCollection = dbContext.GetCollection<User>(collectionName);
             _logger.LogInformation($"Collection name: {collectionName}");
         }
 
@@ -55,12 +56,19 @@ namespace BrugerServiceAPI.Models
             var result = await _userCollection.ReplaceOneAsync(filter, user);
             return result.ModifiedCount;
         }
-        
+
         public async Task<long> DeleteUser(Guid _id)
         {
             var filter = Builders<User>.Filter.Eq(x => x._id, _id);
             var result = await _userCollection.DeleteOneAsync(filter);
             return result.DeletedCount;
+        }
+        public async Task<User> ValidateUser(string username, string password, int role)
+        {
+            var filter = Builders<User>.Filter.Eq(x => x.username, username) &
+                         Builders<User>.Filter.Eq(x => x.password, password) &
+                         Builders<User>.Filter.Eq(x => x.role, role);
+            return await _userCollection.Find(filter).FirstOrDefaultAsync();
         }
     }
 }

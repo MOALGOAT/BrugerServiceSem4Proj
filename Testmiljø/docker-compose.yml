@@ -22,7 +22,7 @@ services:
     depends_on: 
       - mongodb
     environment:
-      - ConnectionString=mongodb://admin:1234@mongodb:27017
+      - ConnectionString=${ConnectionString}
       - DatabaseName=4SemProj
       - collectionName=Bruger
     container_name: userservice 
@@ -37,7 +37,7 @@ services:
     depends_on:
       - mongodb
     environment:
-      - ConnectionString=mongodb://admin:1234@mongodb:27017
+      - ConnectionString=${ConnectionString}
       - DatabaseName=4SemProj
       - collectionName=Katalog
     container_name: catalogservice
@@ -62,8 +62,7 @@ services:
 
 networks:
   auctionnetwork:
-   name: auctionnetwork  
-
+    name: auctionnetwork  
 
 volumes:
   mongodb_data_container:
