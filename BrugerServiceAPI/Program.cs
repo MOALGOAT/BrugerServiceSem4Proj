@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MongoDB.Driver;
+using VaultSharp;
 using BrugerServiceAPI.Models;
 using BrugerServiceAPI.Service;
 using System;
 using NLog;
 using NLog.Web;
+using BrugerServiceAPI;
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings()
     .GetCurrentClassLogger();
@@ -16,12 +18,22 @@ logger.Debug("init main");
 try
 {
     var builder = WebApplication.CreateBuilder(args);
+    var configuration = builder.Configuration;
+
+    var vaultService = new VaultService(configuration);
+
+    string connectionString = await vaultService.GetConnectionStringAsync("secrets", "MongoConnectionString");
+    configuration["MongoConnectionString"] = connectionString;
+
+    Console.WriteLine("ka du få fat i dne her connectionstring hva?" + connectionString);
+
 
     // Add services to the container.
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
     builder.Services.AddControllers();
+    builder.Services.AddTransient<VaultService>();
     builder.Services.AddSingleton<MongoDBContext>();
     builder.Services.AddSingleton<IUserInterface, UserMongoDBService>();
 
