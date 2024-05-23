@@ -1,20 +1,6 @@
 version: '3.8'
 
 services:
-  mongodb:
-    image: mongo:latest
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: 1234
-    ports:
-      - 27019:27017
-    container_name: mongodb 
-    hostname: mongodb
-    volumes:
-      - mongodb_data_container:/data/db
-    networks:
-      - auctionnetwork
-
   userservice:
     image: jakobhaulund/bruger-service-image:latest
     ports:
