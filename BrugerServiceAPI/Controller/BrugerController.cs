@@ -17,13 +17,10 @@ namespace BrugerServiceAPI.Controllers
         private readonly IUserInterface _userService;
         private readonly ILogger<UserController> _logger;
 
-        private readonly UserMongoDBService _userMongoDBService;
-
-        public UserController(IUserInterface userService, ILogger<UserController> logger, UserMongoDBService userMongoDBService)
+        public UserController(IUserInterface userService, ILogger<UserController> logger)
         {
             _userService = userService;
             _logger = logger;
-            _userMongoDBService = userMongoDBService;
 
             // Log IP address
             var hostName = System.Net.Dns.GetHostName();
@@ -107,7 +104,7 @@ namespace BrugerServiceAPI.Controllers
         public async Task<ActionResult<User>> ValidateUser([FromBody] User user)
         {
             _logger.LogInformation("Validating user with username: {Username}, password: {Password}, role: {Role}", user.username, user.password, user.role);
-            var usr = await _userMongoDBService.ValidateUser(user.username, user.password, user.role);
+            var usr = await _userService.ValidateUser(user.username, user.password, user.role);
 
             if (usr == null)
             {
