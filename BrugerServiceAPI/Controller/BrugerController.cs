@@ -104,16 +104,17 @@ namespace BrugerServiceAPI.Controllers
         }
 
         [HttpPost("validate")]
-        public async Task<ActionResult<User>> ValidateUser(string username, string password, int role)
+        public async Task<ActionResult<User>> ValidateUser([FromBody] User user)
         {
-            _logger.LogInformation("Validating user with username: {Username}, password: {Password}, role: {Role}", username, password, role);
-            var user = await _userMongoDBService.ValidateUser(username, password, role);
-            if (user == null)
+            _logger.LogInformation("Validating user with username: {Username}, password: {Password}, role: {Role}", user.username, user.password, user.role);
+            var usr = await _userMongoDBService.ValidateUser(user.username, user.password, user.role);
+
+            if (usr == null)
             {
-                _logger.LogWarning("User with username: {Username}, password: {Password}, role: {Role} not found", username, password, role);
+                _logger.LogWarning("User with username: {Username}, password: {Password}, role: {Role} not found", user.username, user.password, user.role);
                 return NotFound();
             }
-            return Ok(user);  // Returner brugeren som en Ok (200) svar
+            return Ok(usr);  // Returner brugeren som en Ok (200) svar
         }
     }
 }
