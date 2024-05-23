@@ -12,7 +12,7 @@ namespace BrugerServiceAPI.Models
         Task<Guid> AddUser(User user);
         Task<long> UpdateUser(User user);
         Task<long> DeleteUser(Guid _id);
-        Task<User> ValidateUser(string username, string password, int role);
+        Task<User> ValidateUser(string username, string password);
     }
     public class UserMongoDBService : IUserInterface
     {
@@ -63,11 +63,11 @@ namespace BrugerServiceAPI.Models
             var result = await _userCollection.DeleteOneAsync(filter);
             return result.DeletedCount;
         }
-        public async Task<User> ValidateUser(string username, string password, int role)
+        public async Task<User> ValidateUser(string username, string password)
         {
+            _logger.LogInformation("Validating user with username: {username}", username);
             var filter = Builders<User>.Filter.Eq(x => x.username, username) &
-                         Builders<User>.Filter.Eq(x => x.password, password) &
-                         Builders<User>.Filter.Eq(x => x.role, role);
+                         Builders<User>.Filter.Eq(x => x.password, password);
             return await _userCollection.Find(filter).FirstOrDefaultAsync();
         }
     }

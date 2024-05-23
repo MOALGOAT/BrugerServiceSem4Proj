@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BrugerServiceAPI.Service;
 using MongoDB.Driver;
+using Models;
 
 namespace BrugerServiceAPI.Controllers
 {
@@ -101,14 +102,14 @@ namespace BrugerServiceAPI.Controllers
         }
 
         [HttpPost("validate")]
-        public async Task<ActionResult<User>> ValidateUser([FromBody] User user)
+        public async Task<ActionResult<User>> ValidateUser([FromBody] LoginDTO user)
         {
-            _logger.LogInformation("Validating user with username: {Username}, password: {Password}, role: {Role}", user.username, user.password, user.role);
-            var usr = await _userService.ValidateUser(user.username, user.password, user.role);
+            _logger.LogInformation("Validating user with username: {Username}, password: {Password}", user.username, user.password);
+            var usr = await _userService.ValidateUser(user.username, user.password);
 
             if (usr == null)
             {
-                _logger.LogWarning("User with username: {Username}, password: {Password}, role: {Role} not found", user.username, user.password, user.role);
+                _logger.LogWarning("User with username: {Username}, password: {Password}", user.username, user.password);
                 return NotFound();
             }
             return Ok(usr);  // Returner brugeren som en Ok (200) svar
