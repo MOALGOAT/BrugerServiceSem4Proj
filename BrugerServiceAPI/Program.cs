@@ -33,7 +33,7 @@ try
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
+    });
     // Add services to the container.
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
@@ -62,7 +62,7 @@ try
 }
 catch (Exception ex)
 {
-    logger.Error(ex, "Stopped program because of exception");
+    logger.Error(ex, "Stopped program because of eexception");
     throw;
 }
 finally
