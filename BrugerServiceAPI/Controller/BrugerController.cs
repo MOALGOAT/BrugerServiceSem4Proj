@@ -35,7 +35,7 @@ namespace BrugerServiceAPI.Controllers
         }
 
         [HttpGet("{userID}")]
-
+        [Authorize(Roles = "2")]
         public async Task<ActionResult<User>> GetUser(Guid userID)
         {
             _logger.LogInformation("Getting user with ID: {UserID}", userID);
@@ -72,6 +72,7 @@ namespace BrugerServiceAPI.Controllers
         }
 
         [HttpPut("{_id}")]
+        [Authorize(Roles = "2")]
         public async Task<IActionResult> UpdateUser(Guid _id, User user)
         {
             _logger.LogInformation("Updating user with ID: {UserID}", _id);
@@ -93,6 +94,7 @@ namespace BrugerServiceAPI.Controllers
         }
 
         [HttpDelete("{user_id}")]
+        [Authorize(Roles = "2")]
         public async Task<IActionResult> DeleteUser(Guid user_id)
         {
             _logger.LogInformation("Deleting user with ID: {UserID}", user_id);
