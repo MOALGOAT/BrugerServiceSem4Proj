@@ -4,6 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MongoDB.Driver;
 using VaultSharp;
+using VaultSharp.V1.AuthMethods.Token;
+using VaultSharp.V1.AuthMethods;
+using VaultSharp.V1.Commons;
 using BrugerServiceAPI.Models;
 using BrugerServiceAPI.Service;
 using System;
@@ -13,6 +16,8 @@ using BrugerServiceAPI;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+
+
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings()
     .GetCurrentClassLogger();
@@ -73,6 +78,16 @@ try
         options.AddPolicy("AdminRolePolicy", policy => policy.RequireRole("2"));
     });
 
+    builder.Services.AddCors(options => 
+    {
+        options.AddPolicy("AllowOrigin", builder =>
+        {
+            builder.AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+            
+    });
+
     // Add services to the container.
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
@@ -96,7 +111,9 @@ try
 
     app.MapControllers();
     app.UseHttpsRedirection();
-
+    app.UseAuthentication();
+    app.UseAuthorization();
+    app.MapControllers();
     app.Run();
 }
 catch (Exception ex)
