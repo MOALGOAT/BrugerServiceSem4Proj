@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 using BrugerServiceAPI.Service;
 using MongoDB.Driver;
 using Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 
 
 namespace BrugerServiceAPI.Controllers
@@ -46,6 +49,7 @@ namespace BrugerServiceAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "2")]
         public async Task<ActionResult<IEnumerable<User>>> GetUserList()
         {
             _logger.LogInformation("Getting all users");
