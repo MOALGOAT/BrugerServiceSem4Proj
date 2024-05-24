@@ -10,6 +10,8 @@ using System;
 using NLog;
 using NLog.Web;
 using BrugerServiceAPI;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings()
     .GetCurrentClassLogger();
@@ -27,7 +29,11 @@ try
 
     Console.WriteLine("ka du få fat i dne her connectionstring hva?" + connectionString);
 
-
+   builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
     // Add services to the container.
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
