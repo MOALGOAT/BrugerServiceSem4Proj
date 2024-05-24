@@ -90,7 +90,7 @@ namespace BrugerServiceAPI.Controllers
             }
 
             _logger.LogInformation("User with ID: {UserID} updated", _id);
-            return NoContent();
+            return Ok("User updated successfully");
         }
 
         [HttpDelete("{user_id}")]
@@ -106,7 +106,7 @@ namespace BrugerServiceAPI.Controllers
             }
 
             _logger.LogInformation("User with ID: {UserID} deleted", user_id);
-            return Ok();
+            return Ok("user deleted successfully");
         }
 
         [HttpPost("validate")]
