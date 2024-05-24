@@ -8,10 +8,7 @@ using System.Threading.Tasks;
 using BrugerServiceAPI.Service;
 using MongoDB.Driver;
 using Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
+
 
 namespace BrugerServiceAPI.Controllers
 {
@@ -35,7 +32,7 @@ namespace BrugerServiceAPI.Controllers
         }
 
         [HttpGet("{userID}")]
-        [Authorize(Roles = "2")]
+
         public async Task<ActionResult<User>> GetUser(Guid userID)
         {
             _logger.LogInformation("Getting user with ID: {UserID}", userID);
