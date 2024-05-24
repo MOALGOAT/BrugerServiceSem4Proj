@@ -22,6 +22,6 @@ namespace BrugerServiceAPI.Models
 
         public string password { get; set; } 
 
-        public DateTime created_at { get; set; }
+        public DateTime created_at { get; set; } = DateTime.UtcNow;
     }
 }
