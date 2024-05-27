@@ -122,5 +122,27 @@ namespace BrugerServiceAPI.Controllers
             }
             return Ok(usr);  // Returner brugeren som en Ok (200) svar
         }
+    [HttpGet("/api/legal/users/{userId}")]
+    [Authorize(Roles = "2")]
+    public async Task<ActionResult<User>> GetUserById(Guid userId)
+    {
+        _logger.LogInformation("Getting user with ID: {UserID}", userId);
+        var user = await _userService.GetUser(userId);
+        if (user == null)
+        {
+            _logger.LogWarning("User with ID: {UserID} not found", userId);
+            return NotFound(new { error = "User not found" });
+        }
+
+        var response = new
+        {
+            Id = user._id,
+            Username = user.username,
+            Email = user.email,
+            RegistrationDate = user.created_at // assuming CreatedAt is the registration date
+        };
+
+        return Ok(response);
+    }
     }
 }
