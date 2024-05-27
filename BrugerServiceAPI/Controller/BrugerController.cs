@@ -123,7 +123,7 @@ namespace BrugerServiceAPI.Controllers
             return Ok(usr);  // Returner brugeren som en Ok (200) svar
         }
     [HttpGet("/api/legal/users/{userId}")]
-    [Authorize(Roles = "2")]
+    [Authorize(Roles = "3")]
     public async Task<ActionResult<User>> GetUserById(Guid userId)
     {
         _logger.LogInformation("Getting user with ID: {UserID}", userId);
