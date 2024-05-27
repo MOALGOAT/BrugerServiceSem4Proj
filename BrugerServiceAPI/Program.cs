@@ -36,8 +36,6 @@ try
     string connectionString = await vaultService.GetConnectionStringAsync("secrets", "MongoConnectionString");
     configuration["MongoConnectionString"] = connectionString;
 
-    Console.WriteLine("ka du få fat i dne her connectionstring hva?" + connectionString);
-
      builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -54,10 +52,9 @@ try
             ValidIssuer = myIssuer,
             ValidAudience = "http://localhost",
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(mySecret)),
-            ClockSkew = TimeSpan.Zero // hmmmmmm
+            ClockSkew = TimeSpan.Zero 
         };
 
-        // Tilføj event handler for OnAuthenticationFailed
         options.Events = new JwtBearerEvents
         {
             OnAuthenticationFailed = context =>
@@ -90,8 +87,6 @@ try
             
     });
 
-    // Add services to the container.
-    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
     builder.Services.AddControllers();
@@ -104,7 +99,6 @@ try
 
     var app = builder.Build();
 
-    // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();

@@ -27,11 +27,10 @@ namespace BrugerServiceAPI.Controllers
             _userService = userService;
             _logger = logger;
 
-            // Log IP address
             var hostName = System.Net.Dns.GetHostName();
             var ips = System.Net.Dns.GetHostAddresses(hostName);
             var _ipaddr = ips.First().MapToIPv4().ToString();
-            _logger.LogInformation(1, $"XYZ Service responding from {_ipaddr}");
+            _logger.LogInformation(1, $"User service responding from {_ipaddr}");
         }
 
         [HttpGet("{userID}")]
@@ -68,7 +67,7 @@ namespace BrugerServiceAPI.Controllers
             _logger.LogInformation("Adding new user: {@User}", user);
             var userID = await _userService.AddUser(user);
             _logger.LogInformation("User added with ID: {UserID}", userID);
-            return Ok(userID);
+            return Ok($"User with id {userID} added successfully");
         }
 
         [HttpPut("{_id}")]
@@ -78,7 +77,7 @@ namespace BrugerServiceAPI.Controllers
             _logger.LogInformation("Updating user with ID: {UserID}", _id);
             if (_id != user._id)
             {
-                _logger.LogError("User ID in URL: {UserID} does not match ID in body: {UserIDFromBody}", _id, user._id);
+                _logger.LogError($"User ID in URL: {user._id} does not match ID in body: {_id}", _id, user._id);
                 return BadRequest();
             }
 
@@ -90,7 +89,7 @@ namespace BrugerServiceAPI.Controllers
             }
 
             _logger.LogInformation("User with ID: {UserID} updated", _id);
-            return Ok("User updated successfully");
+            return Ok($"User with id {_id} updated successfully");
         }
 
         [HttpDelete("{user_id}")]
@@ -120,7 +119,7 @@ namespace BrugerServiceAPI.Controllers
                 _logger.LogWarning("User with username: {Username}, password: {Password}", user.username, user.password);
                 return NotFound();
             }
-            return Ok(usr);  // Returner brugeren som en Ok (200) svar
+            return Ok(usr);  
         }
     [HttpGet("/api/legal/users/{userId}")]
     [Authorize(Roles = "3")]

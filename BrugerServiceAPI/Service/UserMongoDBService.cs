@@ -65,7 +65,7 @@ namespace BrugerServiceAPI.Models
         }
         public async Task<User> ValidateUser(string username, string password)
         {
-            _logger.LogInformation("Validating user with username: {username}", username);
+            _logger.LogInformation($"Validating user with username: {username}", username);
             var filter = Builders<User>.Filter.Eq(x => x.username, username) &
                          Builders<User>.Filter.Eq(x => x.password, password);
             return await _userCollection.Find(filter).FirstOrDefaultAsync();
