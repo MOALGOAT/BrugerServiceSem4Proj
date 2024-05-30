@@ -83,7 +83,8 @@ namespace BrugerServiceAPI
             }
             catch (Exception ex)
             {
-                return null + "fejl ved hentning af secret";
+                Console.WriteLine("Error retrieving secret from vault: " + ex.Message);
+                return null;
             }
         }
 
